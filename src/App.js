@@ -1,24 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
+
+  const squareClass = "yellow";
+
+  const squares = new Array();
+
+  for (let i = 0; i <= 15; i++) {
+    squares.push({
+      id: i
+    });
+  };
+
+  const Square = (props) => {
+    return <div className={props.colorClass}>{props.index}</div>
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flexbox">
+          { squares.map(s => <Square colorClass={squareClass} index={s.id} key={s.id} />) }
     </div>
+
   );
 }
 
