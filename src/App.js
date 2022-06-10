@@ -2,9 +2,9 @@ import './App.css';
 
 function App() {
 
-  const squareClass = "yellow";
+  const squareClass = (i) => (i % 2 === 0 ? "yellow" : "blue");
 
-  const squares = new Array();
+  const squares = [];
 
   for (let i = 0; i <= 15; i++) {
     squares.push({
@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="flexbox">
-          { squares.map(s => <Square colorClass={squareClass} index={s.id} key={s.id} />) }
+          { squares.map(s => <Square colorClass={squareClass(s.id)} index={s.id} key={s.id} />) }
     </div>
 
   );

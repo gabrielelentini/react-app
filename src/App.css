@@ -26,6 +26,18 @@ body, html, .App, #root {
   border: 1px solid black;
 }
 
+
+.blue {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background-color: blue;
+  height: 100px;
+  width: 32.5%;
+  border: 1px solid black;
+}
+
 .flexbox {
   display: flex;
   justify-content: space-between;
