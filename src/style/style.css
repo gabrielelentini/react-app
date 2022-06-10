@@ -13,16 +13,18 @@ code {
 }
 
 
-body,html,.App,#root{
+body, html, .App, #root {
   height: 100%;
 }
-.App{
+
+.App {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
 }
-#Header{
+
+#Header {
   border-bottom: 1px solid #000000;
   display: flex;
   flex: 0.1;
@@ -30,13 +32,15 @@ body,html,.App,#root{
   align-items: center;
   justify-content: center;
 }
-#Header button{
+
+#Header button {
   border-radius: 50%;
   width: 40px;
   height: 40px;
   margin-left: 20px;
 }
-#Modal{
+
+#Modal {
   border-bottom: 1px solid #000000;
   display: flex;
   flex-direction: column;
@@ -45,30 +49,35 @@ body,html,.App,#root{
   align-items: center;
   justify-content: center;
 }
-#Modal input{
+
+#Modal input {
   height: 30px;
   font-size: 24px;
   text-align: center;
   margin-bottom: 10px;
   margin-top: 10px;
 }
-#Modal button{
+
+#Modal button {
   height: 40px;
   font-size: 20px;
   padding-left: 10px;
   padding-right: 10px;
 }
-#ListaSpesa{
+
+#ListaSpesa {
   display: flex;
   flex: 0.7;
   width: 100vw;
   align-items: flex-start;
 
 }
-#ListaSpesa > div{
+
+#ListaSpesa>div {
   padding-left: 20px
 }
-#ListaSpesa [type="checkbox"]{
+
+#ListaSpesa [type="checkbox"] {
   width: 20px;
   height: 20px;
   margin-right: 5px;
@@ -89,13 +98,15 @@ body,html,.App,#root{
   text-decoration: none;
   text-shadow: 0px 1px 0px #810e05;
 }
+
 .delete:hover {
-	background:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
-	background-color:#f24437;
+  background: linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+  background-color: #f24437;
 }
+
 .delete:active {
-	position:relative;
-	top:1px;
+  position: relative;
+  top: 1px;
 }
 
 .articolo {
@@ -135,4 +146,36 @@ button.closeModal:active {
   background: orange;
   border-radius: 10px;
   margin: 10px 0;
+}
+
+.diceBox {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.diceResult {
+  height: 100px;
+  width: 100px;
+  background: #ffba6d;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.flexButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 150px;
+}
+
+.diceFlexBox {
+  display: flex;
+  justify-content: space-between;
+  width: 225px;
 }
