@@ -23,7 +23,7 @@ function BitcoinChart() {
         }
         setTimeout(() => {
             tradeWs.close();
-        }, 20000);
+        }, 10000);
     }, []);
     
     const Chart = (props) => {
