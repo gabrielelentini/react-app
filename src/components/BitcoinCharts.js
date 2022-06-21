@@ -3,12 +3,15 @@ import { useEffect, useState } from "react";
 import { React }  from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import DataGrid from './DataGrid'
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function BitcoinChart() {
     const [chartData, setChartData] = useState([0, 0]);
     const [actualCryptos, setActualCryptos] = useState([]);
+    const [rows, setRows] = useState([]);
+    const [tableVisibility, setTableVisibility] = useState(false);
     const tradeWs = new WebSocket('wss://ws.coincap.io/trades/binance');
     const data = {
         labels: ['Buy', 'Sell'],
@@ -30,10 +33,12 @@ function BitcoinChart() {
     };
     useEffect(() => {
         const cryptosList = [];
+        const rowsData = [];
         const chartData = [0, 0]; //0 => buy, 1 => sell
         tradeWs.onmessage = function (msg) {
             const receivedData = JSON.parse(msg.data);
             let cryptoIndex = cryptosList.findIndex(c => c.base == receivedData.base);
+            rowsData.push(receivedData);
             if (receivedData.direction === 'buy') {
                 chartData[0]++;
             } else {
@@ -47,12 +52,15 @@ function BitcoinChart() {
                     counter: 1
                 });
             };
+            console.log(receivedData)
             cryptosList.sort((a, b) => b.counter - a.counter)
             setActualCryptos([...cryptosList]);
             setChartData([...chartData]);
+            setRows([...rowsData]);
         }
         setTimeout(() => {
             tradeWs.close();
+            setTableVisibility(true);
         }, 10000);
     }, []);
 
@@ -78,6 +86,7 @@ function BitcoinChart() {
                     {actualCryptos.map((c, idx) => <div className="crypto" key={idx}><div className="chartLabel">{c.base.toUpperCase()} </div><Chart c={c} idx={idx} /></div>)}
                 </div>
             </div>
+            { tableVisibility == true ? <DataGrid rows={rows}/> : null}
         </div>
     );
 }
