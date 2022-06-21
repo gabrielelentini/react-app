@@ -1,15 +1,43 @@
+
 import { useEffect, useState } from "react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 function BitcoinChart() {
-
+    const [chartData, setChartData] = useState([0, 0]);
     const [actualCryptos, setActualCryptos] = useState([]);
     const tradeWs = new WebSocket('wss://ws.coincap.io/trades/binance');
-
+    const data = {
+        labels: ['Buy', 'Sell'],
+        datasets: [
+            {
+                label: 'Buy vs Sell',
+                data: chartData,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1,
+            },
+        ],
+    };
     useEffect(() => {
         const cryptosList = [];
+        const chartData = [0, 0]; //0 => buy, 1 => sell
         tradeWs.onmessage = function (msg) {
             const receivedData = JSON.parse(msg.data);
             let cryptoIndex = cryptosList.findIndex(c => c.base == receivedData.base);
+            if (receivedData.direction === 'buy') {
+                chartData[0]++;
+            } else {
+                chartData[1]++;
+            }
             if (cryptoIndex != -1) {
                 cryptosList[cryptoIndex].counter++;
             } else {
@@ -18,29 +46,39 @@ function BitcoinChart() {
                     counter: 1
                 });
             };
-            cryptosList.sort((a, b) => b.counter - a.counter )
+            cryptosList.sort((a, b) => b.counter - a.counter)
             setActualCryptos([...cryptosList]);
+            setChartData([...chartData]);
         }
         setTimeout(() => {
             tradeWs.close();
         }, 10000);
     }, []);
-    
+
     const Chart = (props) => {
         return (
             <div className="classBox">
-                    <div className="chart" style={{width: `${props.c.counter / actualCryptos[0].counter * 100}%`}}>{props.c.counter}</div>
+                <div className="chart" style={{ width: `${props.c.counter / actualCryptos[0].counter * 100}%` }}>{props.c.counter}</div>
             </div>
         );
     }
- 
+
     return (
-      <div className="App">
-        <h1>Crypto Trends</h1>
-        { actualCryptos.map((c, idx) => <div className="crypto" key={idx}><div className="chartLabel">{c.base.toUpperCase()} </div><Chart c={c} idx={idx}/></div>)}
-      </div>
-    );  
-  }
-  
-  export default BitcoinChart;
-  
+        <div className="App">
+            <div className="titleBox">
+                <h1>Crypto Trends</h1>
+                <h2 className="subtitle">Le cripto più scambiate in tempo reale su Binance</h2>
+            </div>
+            <div className="flexbox">
+                <div className="chartBox">
+                    <Pie data={data} />
+                </div>
+                <div className="cryptosList">
+                    {actualCryptos.map((c, idx) => <div className="crypto" key={idx}><div className="chartLabel">{c.base.toUpperCase()} </div><Chart c={c} idx={idx} /></div>)}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default BitcoinChart;
